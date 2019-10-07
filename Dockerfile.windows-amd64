@@ -1,0 +1,13 @@
+FROM golang:1.13.1-buster
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+      linux-libc-dev mingw-w64
+
+# Create a GOCACHE directory
+RUN mkdir -p /.cache
+RUN chmod 777 /.cache
+
+# Build flannel binary
+WORKDIR /go/src/github.com/coreos/flannel
+CMD make dist/flanneld.exe SHELL='sh -x'
